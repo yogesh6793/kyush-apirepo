@@ -76,7 +76,8 @@ public class SecurityConfig {
                 .requestMatchers(
                 		//write api url that away from secuiry
                 		"/users/authenticate",
-                		"/job/getJobs"
+                		"/job/getJobs",
+                		"/contact/sendMessage"
                    
                 ).permitAll()
                 .anyRequest().authenticated()
@@ -101,3 +102,4 @@ public class SecurityConfig {
     }
 
 }
+
