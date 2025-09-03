@@ -1,8 +1,9 @@
 package com.example.kyush.serviceImpl;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import com.example.kyush.dao.ContactUs;
@@ -60,8 +62,10 @@ public class ContactUsServiceImpl implements ContactUsService{
 		ContactUs save = contactUsRepo.save(contactUs);
 		HashMap<String, String> templateMap = new HashMap<>();
 		templateMap.put("SUBJECT", "Thank You for Contacting KYush-IT Solutions");
-		templateMap.put("TEMPLATE_LOCATION", "src/main/resources/templates/email-template.html");
-		boolean sendEmail = sendEmail(templateMap, save.getName(), save.getEmail(), save.getMessage());
+		ClassPathResource resource = new ClassPathResource("templates/email-template.html");
+//		templateMap.put("TEMPLATE_LOCATION", "src/main/resources/templates/email-template.html");
+		Path path = resource.getFile().toPath();
+		boolean sendEmail = sendEmail(templateMap, path, save.getName(), save.getEmail(), save.getMessage());
 		
 		if(sendEmail==true) {
 			return true;
@@ -73,7 +77,7 @@ public class ContactUsServiceImpl implements ContactUsService{
 	}
 	
 	@Override
-	public boolean sendEmail(HashMap<String, String> templateMap, String name, String email, String content) throws Exception {
+	public boolean sendEmail(HashMap<String, String> templateMap, Path path, String name, String email, String content) throws Exception {
 	    Properties properties = new Properties();
 	    properties.put("mail.smtp.auth", AUTH);
 	    properties.put("mail.smtp.starttls.enable", STARTTLS_ENABLE);
@@ -90,7 +94,7 @@ public class ContactUsServiceImpl implements ContactUsService{
 
 	    try {
 	        // Load the HTML template
-	        htmlTemplate = new String(Files.readAllBytes(Paths.get(templateMap.get("TEMPLATE_LOCATION"))));
+	        htmlTemplate = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
 	        htmlTemplate = htmlTemplate.replace("{{name}}", name);
 	        
 	        if(templateMap.get("POSITION_NAME")!=null) {

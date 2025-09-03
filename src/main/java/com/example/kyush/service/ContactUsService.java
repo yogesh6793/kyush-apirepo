@@ -1,5 +1,6 @@
 package com.example.kyush.service;
 
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,7 +10,7 @@ public interface ContactUsService {
 
 	boolean sendMessageAndEmail(ContactUs contactUs) throws Exception;
 	
-	boolean sendEmail(HashMap<String, String> templateMap, String name, String email, String content) throws Exception;
+	boolean sendEmail(HashMap<String, String> templateMap, Path path, String name, String email, String content) throws Exception;
 
 	List<ContactUs> findAllMessage();
 
