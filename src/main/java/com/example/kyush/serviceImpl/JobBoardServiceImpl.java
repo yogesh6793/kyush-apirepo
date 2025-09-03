@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -18,6 +19,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -118,8 +120,10 @@ public class JobBoardServiceImpl implements JobBoardService{
 			HashMap<String, String> templateMap = new HashMap<>();
 			templateMap.put("SUBJECT", "Application Received – "+jobBoard.getJobTitle());
 			templateMap.put("POSITION_NAME", jobBoard.getJobTitle());
-			templateMap.put("TEMPLATE_LOCATION", "src/main/resources/templates/job-application-receipt.html");
-			contactUsService.sendEmail(templateMap, savedApplicant.getApplicantName(), savedApplicant.getEmail(), savedApplicant.getMessage());
+			//templateMap.put("TEMPLATE_LOCATION", "src/main/resources/templates/job-application-receipt.html");
+			ClassPathResource resource = new ClassPathResource("templates/job-application-receipt.html");
+			Path path = resource.getFile().toPath();
+			contactUsService.sendEmail(templateMap, path, savedApplicant.getApplicantName(), savedApplicant.getEmail(), savedApplicant.getMessage());
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -223,8 +227,10 @@ public class JobBoardServiceImpl implements JobBoardService{
 		templateMap.put("JOB_STATUS", jobStatus.getJobStatus());
 		templateMap.put("STATUS_MESSAGE", jobStatus.getMessage());
 		templateMap.put("POSITION_NAME", application.getJobBoardTitle());
-		templateMap.put("TEMPLATE_LOCATION", "src/main/resources/templates/job-status-update.html");
-		contactUsService.sendEmail(templateMap, application.getApplicantName(), application.getEmail(), application.getJobStatus());
+//		templateMap.put("TEMPLATE_LOCATION", "src/main/resources/templates/job-status-update.html");
+		ClassPathResource resource = new ClassPathResource("templates/job-status-update.html");
+		Path path = resource.getFile().toPath();
+		contactUsService.sendEmail(templateMap, path, application.getApplicantName(), application.getEmail(), application.getJobStatus());
 		
 		return application;
 	}
