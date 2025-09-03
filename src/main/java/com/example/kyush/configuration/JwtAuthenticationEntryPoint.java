@@ -1,7 +1,7 @@
 package com.example.kyush.configuration;
 
 import java.io.IOException;
-import java.io.Serial;
+//import java.io.Serial;
 import java.io.Serializable;
 
 import org.springframework.security.core.AuthenticationException;
@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Serializable{
 
-	@Serial
+//	@Serial
 	private static final long serialVersionUID = -7858869558953243875L;
 
 	@Override
