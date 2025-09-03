@@ -1,11 +1,11 @@
 package com.example.kyush.model;
 
-import java.io.Serial;
+//import java.io.Serial;
 import java.io.Serializable;
 
 public class JwtRequest implements Serializable {
 
-	@Serial
+//	@Serial
 	private static final long serialVersionUID = 5926468583005150707L;
 
 	private String username;
