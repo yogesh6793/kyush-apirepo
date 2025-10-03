@@ -77,7 +77,11 @@ public class SecurityConfig {
                 		//write api url that away from secuiry
                 		"/users/authenticate",
                 		"/job/getJobs",
-                		"/contact/sendMessage"
+                		"/contact/sendMessage",
+						// Swagger/OpenAPI
+        				"/v3/api-docs/**",
+        				"/swagger-ui/**",
+        				"/swagger-ui.html"
                    
                 ).permitAll()
                 .anyRequest().authenticated()
@@ -102,3 +106,4 @@ public class SecurityConfig {
     }
 
 }
+
